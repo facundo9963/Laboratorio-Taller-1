@@ -1,6 +1,7 @@
 package laboratorio;
 
 import estrategias.Basica;
+import estrategias.Agresive;
 import estrategias.Strategy;
 import robocode.*;
 
@@ -9,7 +10,7 @@ public class LaboRobot extends JuniorRobot {
 
     @Override
     public void run() {
-        estrategia = new Basica(this); // le paso el robot en el constructor
+        estrategia = new Agresive(this); // le paso el robot en el constructor
         estrategia.run();              // delego el comportamiento principal
     }
 
