@@ -22,23 +22,19 @@ public class Agresive extends Strategy {
 
     @Override
     public void onScannedRobot() {
-        // Calcular potencia según distancia (más cerca = más daño)
-        double power = 3.0; // máximo para sumar muchos puntos
+        double power = 3.0;
         if (robot.scannedDistance > 400) {
-            power = 2.0; // media distancia
+            power = 2.0;
         } else if (robot.scannedDistance > 200) {
             power = 2.5;
         }
 
-        // Apuntar el cañón hacia el robot detectado
         robot.turnGunTo(robot.scannedAngle);
 
-        // Disparar solo si el arma está lista
         if (robot.gunReady) {
             robot.fire(power);
         }
 
-        // Avanzar hacia el enemigo (presión constante)
         if (robot.scannedDistance > 150) {
             robot.ahead(50);
         }
@@ -46,14 +42,12 @@ public class Agresive extends Strategy {
 
     @Override
     public void onHitByBullet() {
-        // Movimiento evasivo: esquivar hacia los costados
         robot.turnRight(90);
         robot.ahead(100);
     }
 
     @Override
     public void onHitWall() {
-        // Rebotar agresivamente contra la pared
         robot.back(50);
         robot.turnRight(90);
     }
