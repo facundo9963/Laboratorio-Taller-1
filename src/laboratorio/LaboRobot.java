@@ -1,44 +1,30 @@
 package laboratorio;
+
+import estrategias.Basica;
 import estrategias.Strategy;
 import robocode.*;
 
-
-public class LaboRobot extends JuniorRobot
-{
+public class LaboRobot extends JuniorRobot {
     private Strategy estrategia;
 
-	@Override
-	public void run() {
+    @Override
+    public void run() {
+        estrategia = new Basica(this); // le paso el robot en el constructor
+        estrategia.run();              // delego el comportamiento principal
+    }
 
-		setColors(orange, blue, white, yellow, black);
-		ahead(100);
-		turnGunRight(360);
-		back(100);
-		turnGunRight(360);
+    @Override
+    public void onScannedRobot() {
+        estrategia.onScannedRobot();
+    }
 
-	}
+    @Override
+    public void onHitByBullet() {
+        estrategia.onHitByBullet();
+    }
 
-	/**
-	 * onScannedRobot: What to do when you see another robot
-	 */
-	@Override
-	public void onScannedRobot() {
-		fire(1);
-	}
-
-	/**
-	 * onHitByBullet: What to do when you're hit by a bullet
-	 */
-	@Override
-	public void onHitByBullet() {
-		back(10);
-	}
-
-	/**
-	 * onHitWall: What to do when you hit a wall
-	 */
-	@Override
-	public void onHitWall() {
-		back(20);
-	}
+    @Override
+    public void onHitWall() {
+        estrategia.onHitWall();
+    }
 }
