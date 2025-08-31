@@ -1,10 +1,11 @@
 package estrategias;
 
+import laboratorio.LaboRobot;
 import robocode.JuniorRobot;
 
 public class Agresive extends Strategy {
 
-    public Agresive(JuniorRobot robot) {
+    public Agresive(LaboRobot robot) {
         super(robot);
     }
 

@@ -1,37 +1,44 @@
 package estrategias;
 
+import laboratorio.LaboRobot;
+import robocode.JuniorRobot;
+
 public class Basica extends Strategy {
 
-    public Basica(robocode.JuniorRobot robot) {
+    public Basica(LaboRobot robot) {
         super(robot);
     }
 
     @Override
     public void run() {
-        robot.setColors(robot.orange, robot.blue, robot.white, robot.yellow, robot.black);
+        robot.setColors(robot.red, robot.black, robot.black, robot.red, robot.orange);
+
+        // Movimiento inicial: patrullaje agresivo
         while (true) {
-            robot.ahead(100);
-            robot.turnGunRight(360);
-            robot.back(100);
-            robot.turnGunRight(360);
+            robot.ahead((robot.fieldHeight + robot.fieldWidth)/8);
+            robot.turnRight(45);
+            robot.turnGunRight(360);// búsqueda constante de enemigos
         }
     }
 
     @Override
     public void onScannedRobot() {
-        if (robot.gunReady) {
-            robot.fire(1);
+        if (robot.scannedDistance < 400){
+            double power = 3.0 * (1 - (double) robot.scannedDistance / 400);
+            robot.turnGunTo(robot.scannedAngle);
+            robot.fireIfReady(power);
         }
     }
 
     @Override
     public void onHitByBullet() {
-        robot.back(10);
+        robot.turnRight(robot.hitByBulletBearing + 90);
+        robot.ahead((robot.fieldHeight + robot.fieldWidth)/32);
+        robot.turnGunTo(robot.hitByBulletAngle);
     }
 
     @Override
     public void onHitWall() {
-        robot.back(20);
-        robot.turnRight(90);
+        this.robot.alejarDeLaPared();
     }
 }
