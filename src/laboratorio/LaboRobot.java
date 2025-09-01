@@ -1,7 +1,7 @@
 package laboratorio;
 
 import estrategias.Basica;
-import estrategias.Agresive;
+import estrategias.AggressiveHunter;
 import estrategias.Strategy;
 import robocode.*;
 
