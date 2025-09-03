@@ -1,11 +1,10 @@
 package estrategias;
 
-import laboratorio.LaboRobot;
-import robocode.JuniorRobot;
+import laboratorio.R2D2Robot;
 
 public class Basica extends Strategy {
 
-    public Basica(LaboRobot robot) {
+    public Basica(R2D2Robot robot) {
         super(robot);
     }
 

@@ -1,12 +1,11 @@
 package estrategias;
 
-import laboratorio.LaboRobot;
-import robocode.JuniorRobot;
+import laboratorio.R2D2Robot;
 
 public abstract class Strategy {
-    protected LaboRobot robot;
+    protected R2D2Robot robot;
 
-    public Strategy(LaboRobot robot) {
+    public Strategy(R2D2Robot robot) {
         this.robot = robot;
     }
 

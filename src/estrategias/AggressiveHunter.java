@@ -1,10 +1,10 @@
 package estrategias;
 
-import laboratorio.LaboRobot;
+import laboratorio.R2D2Robot;
 
 public class AggressiveHunter extends Strategy {
 
-    public AggressiveHunter(LaboRobot robot) {
+    public AggressiveHunter(R2D2Robot robot) {
         super(robot);
     }
 
@@ -12,51 +12,74 @@ public class AggressiveHunter extends Strategy {
     public void run() {
         robot.setColors(robot.red, robot.black, robot.black, robot.red, robot.orange);
 
-        while (true) {
-            // Giro constante del radar para no perder enemigos
-            robot.turnGunRight(45);
-            robot.ahead(80);
+        for (;;) {
+            // Movimiento constante para no ser un blanco fácil
+            robot.turnAheadRight(100, 30);
+            robot.turnGunRight(30); // barrido continuo del cañón
+            robot.turnBackLeft(60, 20);
         }
     }
 
     @Override
     public void onScannedRobot() {
-        // Ajuste de potencia según la distancia
+        // --- Potencia del disparo ---
         double power;
         if (robot.scannedDistance > 400) {
-            power = 2.0;
+            power = 1.5; // lejos → ahorrar energía
         } else if (robot.scannedDistance > 200) {
             power = 2.5;
         } else {
-            power = 3.0;
+            power = Math.min(3.0, robot.energy / 8); // máximo daño sin suicidarse
         }
 
-        // Apuntar directamente al enemigo
-        robot.turnGunTo(robot.scannedAngle);
+        // --- Predicción de disparo ---
+        double bulletSpeed = 20 - 3 * power;
+        double time = robot.scannedDistance / bulletSpeed;
+
+        // Posición futura estimada del enemigo
+        double enemyFutureX = robot.robotX + robot.scannedDistance * Math.cos(Math.toRadians(robot.scannedAngle))
+                + robot.scannedVelocity * time * Math.cos(Math.toRadians(robot.scannedHeading));
+        double enemyFutureY = robot.robotY + robot.scannedDistance * Math.sin(Math.toRadians(robot.scannedAngle))
+                + robot.scannedVelocity * time * Math.sin(Math.toRadians(robot.scannedHeading));
+
+        // Ángulo hacia la posición futura
+        double dx = enemyFutureX - robot.robotX;
+        double dy = enemyFutureY - robot.robotY;
+        int predictedAngle = (int) Math.toDegrees(Math.atan2(dy, dx));
+
+        robot.turnGunTo(predictedAngle);
         robot.fireIfReady(power);
 
-        // Si el enemigo está cerca, perseguirlo
-        if (robot.scannedDistance < 300) {
-            robot.turnTo(robot.scannedAngle);
-            robot.ahead(100);
+        // --- Movimiento ofensivo ---
+        if (robot.scannedDistance < 150) {
+            // Muy cerca → orbitar y presionar
+            robot.turnAheadRight(120, 40);
+        } else if (robot.scannedDistance < 300) {
+            // Medio alcance → rodeo agresivo
+            robot.turnAheadLeft(150, 25);
         } else {
-            // Si está lejos, acercarse un poco pero con cautela
+            // Lejos → acercarse rápido
             robot.turnTo(robot.scannedAngle);
-            robot.ahead(50);
+            robot.ahead(180);
+        }
+
+        // Si el enemigo tiene poca energía, ir directo a rematar
+        if (robot.scannedEnergy < 20) {
+            robot.turnTo(robot.scannedAngle);
+            robot.ahead(200);
         }
     }
 
     @Override
     public void onHitByBullet() {
-        // Movimiento evasivo pero sin dejar de atacar
-        robot.turnRight(45);
-        robot.ahead(120);
-        robot.turnGunRight(360); // Buscar inmediatamente al atacante
+        // Evasión fuerte: moverse en diagonal
+        robot.turnBackRight(120, 60);
+        // Buscar rápido al atacante
+        robot.turnGunRight(360);
     }
 
     @Override
     public void onHitWall() {
-        // Usar tu helper para alejarse rápido de la pared
         robot.alejarDeLaPared();
     }
 }

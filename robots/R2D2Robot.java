@@ -1,6 +1,5 @@
 package laboratorio;
 
-import estrategias.Basica;
 import estrategias.AggressiveHunter;
 import estrategias.Strategy;
 import robocode.*;
@@ -11,12 +10,12 @@ import robocode.*;
  * Es un tanquecito agresivo
  *
  */
-public class LaboRobot extends JuniorRobot {
+public class R2D2Robot extends JuniorRobot {
     private Strategy estrategia;
 
     @Override
     public void run() {
-        estrategia = new Basica(this); // le paso el robot en el constructor
+        estrategia = new AggressiveHunter(this); // le paso el robot en el constructor
         estrategia.run();              // delego el comportamiento principal
     }
 
