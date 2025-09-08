@@ -1,6 +1,6 @@
-package estrategias;
+package sanchezNievas.estrategias;
 
-import laboratorio.R2D2Robot;
+import sanchezNievas.R2D2Robot;
 
 public abstract class Strategy {
     protected R2D2Robot robot;

@@ -1,8 +1,6 @@
-package laboratorio;
+package sanchezNievas;
 
-import estrategias.Basica;
-import estrategias.AggressiveHunter;
-import estrategias.Strategy;
+import sanchezNievas.estrategias.Strategy;
 import robocode.*;
 
 /**
