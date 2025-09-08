@@ -10,9 +10,6 @@ public class Basica extends Strategy {
 
     @Override
     public void run() {
-        robot.setColors(robot.red, robot.black, robot.black, robot.red, robot.orange);
-
-        // Movimiento inicial: patrullaje agresivo
         while (true) {
             robot.ahead((robot.fieldHeight + robot.fieldWidth)/8);
             robot.turnRight(45);

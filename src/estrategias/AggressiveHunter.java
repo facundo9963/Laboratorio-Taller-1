@@ -10,7 +10,6 @@ public class AggressiveHunter extends Strategy {
 
     @Override
     public void run() {
-        robot.setColors(robot.red, robot.black, robot.black, robot.red, robot.orange);
 
         for (;;) {
             // Movimiento constante para no ser un blanco fácil
