@@ -8,7 +8,7 @@ public abstract class EstrategaBase {
     public abstract void evaluar(R2D2Robot robot);
 
     /** ================= Estrategias compartidas ================= */
-    public static class Defensive extends Strategy {
+    protected static class Defensive extends Strategy {
 
         public Defensive(R2D2Robot robot) {
             super(robot);
@@ -50,7 +50,7 @@ public abstract class EstrategaBase {
     }
 
 
-    public static class AggressiveHunter extends Strategy {
+    protected static class AggressiveHunter extends Strategy {
 
         public AggressiveHunter(R2D2Robot robot) {
             super(robot);
@@ -133,7 +133,7 @@ public abstract class EstrategaBase {
 
 
 
-    public static class Basica extends Strategy {
+    protected static class Basica extends Strategy {
 
         public Basica(R2D2Robot robot) {
             super(robot);
